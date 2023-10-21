@@ -124,19 +124,45 @@
 				function (data){
 					if (data.isOK) {
 						layer.msg(data.message);
+						$('#registBtn').attr("disabled","disabled");
+					}else{
+						$('#registBtn').removeAttr("disabled");
 					}
 				},
 				"json"
 		);
 	});
+
+	//密码为空
+	$('#password1').blur(function (){
+		if ($(this).val() == ""){
+			layer.msg("请输入密码");
+			$('#registBtn').attr("disabled","disabled");
+		} else {
+			$('#registBtn').removeAttr("disabled");
+		}
+	});
+
 	//密码和确认密码是否正确
 	$('#rePassword').blur(function (){
+		if ($(this).val() == ""){
+			layer.msg("请输入确认密码");
+			$('#registBtn').attr("disabled","disabled");
+		} else {
+			$('#registBtn').removeAttr("disabled");
+		}
 		if ($(this).val() != $('#password1').val()){
-			layer.alert("两次输入不一致",{icon:5})
+			layer.alert("两次输入不一致",{icon:5});
+			$('#registBtn').attr("disabled","disabled");
+		} else {
+			$('#registBtn').removeAttr("disabled");
 		}
 	});
 	//注册
 	$('#registBtn').click(function (){
+		if ($('#rePassword').val() == "" || $('#password1').val() == "" || $('#username1').val() == ""){
+			layer.msg("请输入数据");
+		}
 		$.post(
 				"user?method=register",
 				$('#registForm').serialize(),

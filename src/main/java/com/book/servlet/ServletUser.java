@@ -74,5 +74,16 @@ public class ServletUser extends BaseServlet {
        }
         response.getWriter().write(JSONUtil.toJsonStr(resultVo));
     }
+    public void getinfo (HttpServletRequest request,HttpServletResponse response) throws IOException {
+        ResultVo<Object> resultVo = new ResultVo<>();
+        Object user = request.getSession().getAttribute("user");
+        resultVo.setT(user);
+        response.getWriter().write(JSONUtil.toJsonStr(resultVo));
+    }
+
+    public void logOut (HttpServletRequest request,HttpServletResponse response) throws IOException {
+        request.getSession().removeAttribute("user");
+        response.sendRedirect("login.html");
+    }
 }
 

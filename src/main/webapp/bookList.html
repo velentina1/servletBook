@@ -25,7 +25,7 @@
                     <input id="bookname" class="mini-textbox" emptyText="请输入图书名称" style="width:150px;" onenter="onKeyEnter"/>
                     <label>图书种类：</label>
                     <input id="booktype" class="mini-combobox" emptyText="请选择..." style="width:100px;" textField="tname" valueField="tid"
-                           url="/book/books?method=queryAllBookTypes" />
+                           url="books?method=queryAllBookTypes" />
                     <a class="mini-button" onclick="search()">查询</a>
                 </td>
             </tr>
@@ -33,7 +33,7 @@
     </div>
 </div>
 <div id="datagrid1" class="mini-datagrid" style="width:100%;height:480px;"
-     url="/book/books?method=bookList"  idField="bookid" allowResize="true"
+     url="books?method=bookList"  idField="bookid" allowResize="true"
      pageSize="5" sizeList="[5,10,15,20]"
 >
     <div property="columns">
@@ -57,12 +57,49 @@
 
     //添加图书弹出框
     function add() {
-        
+
+        mini.open({
+            targetWindow: window,
+
+            url: bootPATH + "/book/addbook.html",
+            title: "新增员工", width: 600, height: 400,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                var data = { action: "new" };
+                iframe.contentWindow.SetData(data);
+            },
+            ondestroy: function (action) {
+
+                grid.reload();
+            }
+        });
     }
 
     //编辑
     function edit() {
-       
+
+        var row = grid.getSelected();
+        if (row) {
+            mini.open({
+                url: bootPATH + "../demo/CommonLibs/EmployeeWindow.html",
+                title: "编辑图书", width: 600, height: 400,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "edit", id: row.id };
+                    iframe.contentWindow.SetData(data);
+
+                },
+                ondestroy: function (action) {
+                    //var iframe = this.getIFrameEl();
+
+                    grid.reload();
+
+                }
+            });
+
+        } else {
+            alert("请选中一条记录");
+        }
 
     }
 
