@@ -11,4 +11,14 @@ public interface BookDao {
     int count();
 
     List<BookType> selectAllBookTypes();
+
+    boolean repeatBook(String author, String bookname);
+
+    boolean insertBook(Book book);
+
+    boolean editBook(Book book);
+
+    boolean deleteBookById(String ids);
+
+    Book selectBookById(String bookid);
 }

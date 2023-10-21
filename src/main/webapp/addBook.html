@@ -84,7 +84,15 @@
            // let json = mini.encode([o]);
 
 		   //添加图书ajax
-            
+            $.ajax({
+                url: "/book/books?method=addBook",
+                type:"post",
+                data: {data: JSON.stringify(o)},
+                dataType:"json",
+                success:function (data){
+                    alert(data.message);
+                }
+            })
         }
 
         //标准方法接口定义
@@ -94,7 +102,7 @@
                 data = mini.clone(data);
 
                 $.ajax({
-                    url: "../data/AjaxService.jsp?method=GetEmployee&id=" + data.id,
+                    url: "/book/books?method=addBook&id=" + data.id,
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);

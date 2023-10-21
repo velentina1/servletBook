@@ -11,4 +11,14 @@ public interface BookService {
     List<Book> bookList(int pageSize, int pageIndex, String bookname, String booktype);
 
     int count();
+
+    boolean repeatBook(String author, String bookname);
+
+    boolean addBook(Book book);
+
+    boolean updateBook(Book book);
+
+    boolean deleteBook(String ids);
+
+    Book selectBookById(String bookid);
 }

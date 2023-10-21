@@ -5,7 +5,9 @@ import com.book.bean.Book;
 import com.book.bean.BookType;
 import com.book.dao.BookDao;
 import com.book.util.DruidUtil;
+import com.book.util.UUIDUtil;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -62,6 +64,72 @@ public class BookDaoImpl implements BookDao {
         try {
             String sql = "select * from tb_booktype";
             return queryRunner.query(sql,new BeanListHandler<>(BookType.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean repeatBook(String author, String bookname) {
+        String sql = "select * from tb_books where author = ? and bookname = ?";
+        try {
+            Book book = queryRunner.query(sql, new BeanHandler<>(Book.class),author,bookname);
+            return book == null ? false : true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean insertBook(Book book) {
+        book.setBookid(UUIDUtil.uuid());
+        String sql = "insert into tb_books values(?,?,?,?,?,?)";
+        try {
+            int count = queryRunner.update(sql, book.getBookid(),book.getBookname(),book.getPublisher(),book.getAuthor(),book.getBooktype(),book.getRemain());
+            return count > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public boolean editBook(Book book) {
+        String sql = "update tb_books set bookname = ?,publisher = ?,author = ?,booktype = ?,remain = ? where bookid = ?";
+        try {
+            int i = queryRunner.update(sql,book.getBookname(),book.getPublisher(),book.getAuthor(),book.getBooktype(),book.getRemain(), book.getBookid());
+            return i > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    @Override
+    public boolean deleteBookById(String ids) {
+        String[] idsArray = ids.split(",");
+        boolean deleteOk = true;
+        for (String s : idsArray){
+            String sql = "delete from tb_books where bookid = ?";
+            try {
+                int i = queryRunner.update(sql,s);
+                if (i < 0){
+                    deleteOk = false;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return deleteOk;
+    }
+
+    @Override
+    public Book selectBookById(String bookid) {
+        String sql = "select * from tb_books where bookid = ?";
+        try {
+            return queryRunner.query(sql, new BeanHandler<>(Book.class), bookid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

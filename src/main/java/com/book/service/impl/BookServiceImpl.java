@@ -24,4 +24,30 @@ public class BookServiceImpl implements BookService {
     public int count() {
         return bookDao.count();
     }
+
+    @Override
+    public boolean repeatBook(String author, String bookname) {
+        return bookDao.repeatBook(author,bookname);
+    }
+
+    @Override
+    public boolean addBook(Book book) {
+        return bookDao.insertBook(book);
+    }
+
+    @Override
+    public boolean updateBook(Book book) {
+        return bookDao.editBook(book);
+    }
+    @Override
+    public boolean deleteBook(String ids) {
+        System.out.println(ids);
+        boolean a = bookDao.deleteBookById(ids);
+        return a;
+    }
+
+    @Override
+    public Book selectBookById(String bookid) {
+        return bookDao.selectBookById(bookid);
+    }
 }
