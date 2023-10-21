@@ -6,14 +6,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="renderer" content="webkit">
 		<title>登录</title>
-		<link rel="stylesheet" href="/book/css/pintuer.css">
-		<link rel="stylesheet" href="/book/css/admin.css">
-		<link rel="stylesheet" href="/book/css/bootstrap.css">
-		<script src="/book/js/jquery.js"></script>
-		<script src="/book/js/bootstrap.js"></script>
+		<link rel="stylesheet" href="css/pintuer.css">
+		<link rel="stylesheet" href="css/admin.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/bootstrap.js"></script>
 
 		<!--layui-->
-		<script src="/book/js/layerJs/layer.js"></script>
+		<script src="js/layerJs/layer.js"></script>
 	</head>
 	<body>
 		<div class="bg"></div>
@@ -44,13 +44,13 @@
 								<div class="form-group">
 									<div class="field">
 										<input type="text" class="input input-big" name="code" placeholder="填写右侧的验证码" data-validate="required:请填写右侧的验证码" />
-										<img src="/book/code" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;"
+										<img src="code" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;"
 										 onclick="this.src=this.src+'?'">
 
 									</div>
 								</div>
 								<div class="checkbox">
-									<label style="font-family: 宋体;font-weight: bold;color: gray;">
+									<label style="font-family: 宋体;font-weight: bold;color: rgb(128,128,128);">
 										<input style="vertical-align: middle;" type="checkbox" value="">
 										两周内自动登录
 									</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -100,14 +100,55 @@
 	</body>
 </html>
 <script>
-
-	//登录异步请求
-	
+	// 登录异步请求
+	$('#loginBtn').click(function () {
+		$.post(
+				"user?method=login",
+				$('#loginForm').serialize(), // 序列化表单数据
+				function (data) {
+					if (!data.isOK) {
+						layer.msg(data.message);
+					} else {
+						location.href = "index.html";
+					}
+				},
+				"json"
+		);
+	});
 
 	//异步校验用户名是否被注册过
-	
+	$('#username1').blur(function () {
+		$.get(
+				"user?method=verifyUsername",
+				{username:$('#username1').val()},
+				function (data){
+					if (data.isOK) {
+						layer.msg(data.message);
+					}
+				},
+				"json"
+		);
+	});
 	//密码和确认密码是否正确
-	
+	$('#rePassword').blur(function (){
+		if ($(this).val() != $('#password1').val()){
+			layer.alert("两次输入不一致",{icon:5})
+		}
+	});
 	//注册
-	
+	$('#registBtn').click(function (){
+		$.post(
+				"user?method=register",
+				$('#registForm').serialize(),
+				function (data){
+					if (data.isOK) {
+						layer.alert(data.message,{icon:6});
+					}
+					else {
+						layer.msg(data.message);
+					}
+				},
+				"json"
+		);
+	});
 </script>

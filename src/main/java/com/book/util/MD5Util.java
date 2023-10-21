@@ -1,9 +1,10 @@
-package com.bookmanager.util;
+package com.book.util;
 
 import org.apache.commons.codec.binary.Hex;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -96,7 +97,7 @@ public class MD5Util {
         }
         String salt = new String(cs2);
         //比较二者是否相同
-        return md5Hex(password + salt).equals(new String(cs1));
+        return Objects.equals(md5Hex(password + salt), new String(cs1));
     }
 
     /**
@@ -118,13 +119,11 @@ public class MD5Util {
         // 原密码
         String password = "123456";
         System.out.println("明文(原生)密码：" + password);
-        // MD5加密后的密码
-        String MD5Password = MD5(password);
-        System.out.println("普通MD5加密密码：" + MD5Password);
+
         // 获取加盐后的MD5值
-        String SaltPassword = generateSaltPassword(password);
-        System.out.println("加盐后的MD密码：" + SaltPassword);
-        System.out.println("加盐后的密码和原生密码是否是同一字符串:" + verifySaltPassword(password, SaltPassword));
+        String GeSaltPassword = generateSaltPassword(password);
+        System.out.println("加盐后的MD密码：" + GeSaltPassword);
+        System.out.println("加盐后的密码和原生密码是否是同一字符串:" + verifySaltPassword(password, GeSaltPassword));
     }
 
 }

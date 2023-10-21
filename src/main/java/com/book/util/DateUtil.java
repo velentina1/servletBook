@@ -1,4 +1,4 @@
-package com.bookmanager.util;
+package com.book.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

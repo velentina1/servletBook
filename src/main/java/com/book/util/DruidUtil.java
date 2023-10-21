@@ -1,13 +1,16 @@
-package com.bookmanager.util;
+package com.book.util;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import lombok.Getter;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DruidUtil {
+    @Getter
     public static DataSource dataSource = null;
     static {
         try {
@@ -21,8 +24,9 @@ public class DruidUtil {
         }
     }
 
-    public static DataSource getDataSource(){
-        return dataSource;
-    }
+//    public static void main(String[] args) throws SQLException {
+//        Connection connection = dataSource.getConnection();
+//        System.out.println(connection);
+//    }
 
 }
