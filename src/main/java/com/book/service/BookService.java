@@ -21,4 +21,10 @@ public interface BookService {
     boolean deleteBook(String ids);
 
     Book selectBookById(String bookid);
+
+    boolean updateBookNumber(String bookid);
+
+    boolean getBookRemain(String bookid);
+
+    void updateBookCount(String bookid);
 }

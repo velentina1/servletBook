@@ -50,4 +50,19 @@ public class BookServiceImpl implements BookService {
     public Book selectBookById(String bookid) {
         return bookDao.selectBookById(bookid);
     }
+
+    @Override
+    public boolean updateBookNumber(String bookid) {
+        return bookDao.updateBookNum(bookid);
+    }
+
+    @Override
+    public boolean getBookRemain(String bookid) {
+        return bookDao.getBookRemain(bookid);
+    }
+
+    @Override
+    public void updateBookCount(String bookid) {
+        bookDao.updateBookRemain(bookid);
+    }
 }

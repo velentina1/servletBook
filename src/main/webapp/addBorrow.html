@@ -63,7 +63,7 @@
         </fieldset>
         <div style="text-align:center;padding:10px;">               
             <a class="mini-button" onclick="onOk()" style="width:60px;margin-right:20px;">确定</a>
-            <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>       
+            <a class="mini-button" onclick="onCancel()" style="width:60px;">取消</a>
         </div>        
     </form>
     <script type="text/javascript">
@@ -105,7 +105,15 @@
            // let json = mini.encode([o]);
 
 		   //添加借阅ajax
-            
+            $.ajax({
+                url: "/book/borrow?method=addBorrow",
+                type:"post",
+                data: {data: JSON.stringify(o)},
+                dataType:"json",
+                success:function (data){
+                    alert(data.message);
+                }
+            })
         }
 
         //标准方法接口定义

@@ -54,25 +54,50 @@
             s ='<a class="mini-button" href="javascript:deleteBorrow(\'' + row.borrowid + '\')">删除</a>';
 
         }else{
-            s = '<a class="mini-button" href="javascript:returnBook(\'' + row.borrowid + '\')">还书</a>    '
-                + '<a class="mini-button" href="javascript:editRow()">删除</a>';
+            s = '<a class="mini-button" href="javascript:returnBook(\'' + row.borrowid + '\')">还书</a>';
         }
         return s;
     }
 
     //还书
     function returnBook(borrowid){
-        
+        // console.log("123");
+        $.get("/book/borrow?method=returnBook",
+            {borrowid:borrowid},function (data){
+            if (data.isOK){
+                alert(data.message);
+                grid.reload();
+            }
+            },"json")
     }
 
     //删除借阅信息
     function deleteBorrow(borrowid){
-        
+        $.get("/book/borrow?method=deleteBorrow",
+            {borrowid:borrowid},function (data){
+                if (data.isOK){
+                    alert(data.message);
+                    grid.reload();
+                }
+            },"json")
     }
 
-    //添加图书弹出框
+    //添加借阅弹出框
     function add() {
-       
+        mini.open({
+            targetWindow: window,
+
+            url: "/book/addBorrow.html",
+            title: "新增借阅", width: 600, height: 400,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                var data = { action: "new" };
+                iframe.contentWindow.SetData(data);
+            },
+            ondestroy: function (action) {
+                grid.reload();
+            }
+        });
     }
 
     //条件过滤

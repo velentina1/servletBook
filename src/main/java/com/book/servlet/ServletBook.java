@@ -20,7 +20,7 @@ import java.util.List;
 public class ServletBook extends BaseServlet{
     private BookService bookService = new BookServiceImpl();
     private BorrowService borrowService = new BorrowServiceImpl();
-   public void bookList(HttpServletRequest request,HttpServletResponse response) throws IOException{
+    public void bookList(HttpServletRequest request,HttpServletResponse response) throws IOException{
        String bookname = request.getParameter("bookname");
        String booktype = request.getParameter("booktype");
 
@@ -37,7 +37,6 @@ public class ServletBook extends BaseServlet{
 
        response.getWriter().write(JSONUtil.toJsonStr(pageResult));
    }
-
     public void queryAllBookTypes(HttpServletRequest request,HttpServletResponse response) throws IOException{
        List<BookType> bookTypeList = bookService.queryBookTypes();
        response.getWriter().write(JSONUtil.toJsonStr(bookTypeList));
@@ -86,9 +85,7 @@ public class ServletBook extends BaseServlet{
     }
     public void queryById(HttpServletRequest request,HttpServletResponse response) throws IOException{
        String bookid = request.getParameter("bookid");
-        System.out.println(bookid);
        Book book = bookService.selectBookById(bookid);
-        System.out.println(book);
        response.getWriter().write(JSONUtil.toJsonStr(book));
     }
 }

@@ -21,4 +21,10 @@ public interface BookDao {
     boolean deleteBookById(String ids);
 
     Book selectBookById(String bookid);
+
+    boolean updateBookNum(String bookid);
+
+    boolean getBookRemain(String bookid);
+
+    void updateBookRemain(String bookid);
 }

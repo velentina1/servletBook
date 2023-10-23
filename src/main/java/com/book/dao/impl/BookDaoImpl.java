@@ -134,4 +134,35 @@ public class BookDaoImpl implements BookDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean updateBookNum(String bookid) {
+        String sql = "update tb_books set remain = remain + 1 where bookid = ?";
+        int count = 0;
+        try {
+            count = queryRunner.update(sql, bookid);
+            return count > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public boolean getBookRemain(String bookid) {
+        Book book = this.selectBookById(bookid);
+        int remain = book.getRemain();
+        return remain >= 1;
+    }
+
+    @Override
+    public void updateBookRemain(String bookid) {
+        String sql = "update tb_books set remain = remain - 1 where bookid = ?";
+
+        try {
+            queryRunner.update(sql, bookid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
